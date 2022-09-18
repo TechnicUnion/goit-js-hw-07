@@ -11,13 +11,13 @@ gallery.addEventListener("click", onImgClik);
 
 function createGalleryList(galleryItems) {
   return galleryItems
-    .map(({ preview }) => {
+    .map(({ preview, original }) => {
       return `<div class="gallery__item">
-     <a class="gallery__link" href="${preview}">
+     <a class="gallery__link" href="${original}">
        <img
          class="gallery__image"
          src="${preview}"
-         data-source="${preview}"
+         data-source="${original}"
          alt="Image description"
        />
      </a>
@@ -26,4 +26,15 @@ function createGalleryList(galleryItems) {
     .join("");
 }
 
-function onImgClik() {}
+function onImgClik(event) {
+  event.preventDefault();
+  if (!event.target.classList.contains("gallery__image")) {
+    return;
+  }
+
+  const instance = basicLightbox.create(`
+        <img src="${event.target.dataset.source}">
+    `);
+
+  instance.show();
+}
