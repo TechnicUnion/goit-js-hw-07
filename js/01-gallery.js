@@ -28,13 +28,20 @@ function createGalleryList(galleryItems) {
 
 function onImgClik(event) {
   event.preventDefault();
+  window.addEventListener("keydown", onEscKeyPress);
   if (!event.target.classList.contains("gallery__image")) {
     return;
   }
-
-  const instance = basicLightbox.create(`
+  const modalOpen = basicLightbox.create(`
         <img src="${event.target.dataset.source}">
     `);
+  modalOpen.show();
+}
 
-  instance.show();
+function onEscKeyPress(event) {
+  if (event.code === "Escape") {
+    const modal = document.querySelector(".basicLightbox");
+    modal.remove();
+    window.removeEventListener("keydown", onEscKeyPress);
+  }
 }
