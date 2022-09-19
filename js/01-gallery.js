@@ -28,10 +28,11 @@ function createGalleryList(galleryItems) {
 
 function onImgClik(event) {
   event.preventDefault();
-  window.addEventListener("keydown", onEscKeyPress);
+
   if (!event.target.classList.contains("gallery__image")) {
     return;
   }
+  window.addEventListener("keydown", onEscKeyPress);
   const modalOpen = basicLightbox.create(`
         <img src="${event.target.dataset.source}">
     `);
