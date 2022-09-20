@@ -6,8 +6,11 @@ console.log(galleryItems);
 const gallery = document.querySelector(".gallery");
 const galleryItemsList = createGalleryList(galleryItems);
 gallery.insertAdjacentHTML("beforeend", galleryItemsList);
-
 gallery.addEventListener("click", onImgClik);
+
+const instance = basicLightbox.create(`
+        <img>
+    `);
 
 function createGalleryList(galleryItems) {
   return galleryItems
@@ -33,16 +36,18 @@ function onImgClik(event) {
     return;
   }
   window.addEventListener("keydown", onEscKeyPress);
-  const modalOpen = basicLightbox.create(`
-        <img src="${event.target.dataset.source}">
-    `);
-  modalOpen.show();
+
+  instance
+    .element()
+    .querySelector("img")
+    .setAttribute("src", `${event.target.dataset.source}`);
+
+  instance.show();
 }
 
 function onEscKeyPress(event) {
   if (event.code === "Escape") {
-    const modal = document.querySelector(".basicLightbox");
-    modal.remove();
+    instance.close();
     window.removeEventListener("keydown", onEscKeyPress);
   }
 }
